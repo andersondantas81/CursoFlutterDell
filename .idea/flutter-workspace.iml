@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/exercicios/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/exercicios/build" />
+      <excludeFolder url="file://$MODULE_DIR$/exercicios/lib/Exercicios/oficina2_5/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/exercicios/lib/Exercicios/oficina2_5/build" />
+      <excludeFolder url="file://$MODULE_DIR$/exercicios/mobx_flutter/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/exercicios/mobx_flutter/build" />
+      <excludeFolder url="file://$MODULE_DIR$/oficina2_5/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/oficina2_5/build" />
+      <excludeFolder url="file://$MODULE_DIR$/oficina_aula4_3/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/oficina_aula4_3/build" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

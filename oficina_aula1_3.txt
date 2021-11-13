@@ -1,0 +1,44 @@
+class Calculadora {
+  double num1;
+  double num2;
+  String operador;
+
+  Calculadora({required this.num1, required this.num2, required this.operador});
+
+  void calcular() {
+    switch (operador) {
+      case '+':
+        print(num1 + num2);
+        break;
+      case '-':
+        print(num1 - num2);
+        break;
+      case '/':
+        print(num1 / num2);
+        break;
+      case '*':
+        print(num1 * num2);
+        break;
+      default:
+        print('operador informado está incorreto.');
+        break;
+    }
+
+    /* if (this.operador == '+'){
+      print(num1+num2);
+    } else if(this.operador == '-'){
+      print(num1-num2);
+    } else if(this.operador == '*'){
+      print(num1*num2);
+    } else if(this.operador == '/'){
+      print(num1/num2);
+    } else {
+      print('operador informado está incorreto.');
+    }*/
+  }
+}
+
+void main() {
+  Calculadora calc = Calculadora(num1: 2, num2: 2, operador: '+');
+  calc.calcular();
+}
