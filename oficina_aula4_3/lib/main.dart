@@ -1,8 +1,7 @@
-import 'package:calculadora_flutter_dell/controller/controller.dart';
-import 'package:calculadora_flutter_dell/model/OperacaoMatematica.dart';
 import 'package:flutter/material.dart';
-import 'package:calculadora_flutter_dell/model/OperacaoMatematica.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:oficina_aula4_3/controller/contador_controller.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -18,16 +17,19 @@ class MyApp extends StatelessWidget {
   }
 }
 
-final Controller controller =  Controller();
-
 class Calculadora extends StatelessWidget {
+  ContadorController contadorController = ContadorController();
+
+  int primeiroNumero;
+  int segundoNumero;
+  String operacaoEscolhida;
+  double resultado;
 
   @override
   Widget build(BuildContext context) {
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Calculadora Flutter com MOBX',
+      title: 'Oicina Aula 4.3 flutter Lead',
       theme: ThemeData(
         primarySwatch: Colors.red,
       ),
@@ -36,80 +38,68 @@ class Calculadora extends StatelessWidget {
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(18),
-              child: Column(
-                children: <Widget>[
-                  Numeros(onPrimeiroNumeroEscolhido),
-                  Divider(),
-                  Operacoes(onOperacaoEscolhida),
-                  Divider(),
-                  Numeros(onSegundoNumeroEscolhido),
-                  Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+              child: Observer(
+                builder: (context) {
+                  return Column(
                     children: <Widget>[
-                      BotaoCalcular(
-                          todasOpcoesForamEscolhidas() ? onClickBotao : null),
-                      BotaoZerar(onClickBotaoZerar)
-                    ],
-                  ),
-                  Divider(),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'Operação: ',
-                        style: TextStyle(fontSize: 28),
+                      Numeros(onPrimeiroNumeroEscolhido),
+                      Divider(),
+                      Operacoes(onOperacaoEscolhida),
+                      Divider(),
+                      Numeros(onSegundoNumeroEscolhido),
+                      Divider(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          BotaoCalcular(
+                              todasOpcoesForamEscolhidas() ? onClickBotao : null),
+                          BotaoZerar(onClickBotaoZerar)
+                        ],
                       ),
-                controller.operacaoMatematica.getPrimeiroNumero() != null
-                          ? Observer(
-                            builder: (_) {
-                              return Text(
-                                controller.operacaoMatematica.getPrimeiroNumero().toString(),
-                                style: TextStyle(fontSize: 28),
-                              );
-                            }
+                      Divider(),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            'Operação: ',
+                            style: TextStyle(fontSize: 28),
+                          ),
+                          contadorController.primeiroNumero != null
+                              ? Text(
+                            contadorController.primeiroNumero.toString(),
+                            style: TextStyle(fontSize: 28),
                           )
-                          : SizedBox.shrink(),
-                      controller.operacaoMatematica.getOperacaoEscolhida() != null
-                          ? Observer(
-                            builder: (context) {
-                              return Text(
-                        controller.operacaoMatematica.getOperacaoEscolhida(),
-                                  style: TextStyle(fontSize: 28),
-                                );
-                            }
+                              : SizedBox.shrink(),
+                          contadorController.operacaoEscolhida != null
+                              ? Text(
+                            contadorController.operacaoEscolhida,
+                            style: TextStyle(fontSize: 28),
                           )
-                          : SizedBox.shrink(),
-                      controller.operacaoMatematica.getSegundoNumero() != null
-                          ? Observer(
-                            builder: (context) {
-                              return Text(
-                        controller.operacaoMatematica.getSegundoNumero().toString(),
-                                  style: TextStyle(fontSize: 28),
-                                );
-                            }
+                              : SizedBox.shrink(),
+                          contadorController.segundoNumero != null
+                              ? Text(
+                            contadorController.segundoNumero.toString(),
+                            style: TextStyle(fontSize: 28),
                           )
-                          : SizedBox.shrink(),
-                    ],
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        'Resultado: ',
-                        style: TextStyle(fontSize: 28),
+                              : SizedBox.shrink(),
+                        ],
                       ),
-                      controller.operacaoMatematica.getResultado() != null
-                          ? Observer(
-                            builder: (context) {
-                              return Text(
-                        controller.operacaoMatematica.getResultado().toStringAsFixed(2),
-                                  style: TextStyle(fontSize: 28),
-                                );
-                            }
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            'Resultado: ',
+                            style: TextStyle(fontSize: 28),
+                          ),
+                          contadorController.resultado != null
+                              ? Text(
+                            contadorController.resultado.toStringAsFixed(2),
+                            style: TextStyle(fontSize: 28),
                           )
-                          : SizedBox.shrink(),
+                              : SizedBox.shrink(),
+                        ],
+                      ),
                     ],
-                  ),
-                ],
+                  );
+                }
               ),
             ),
           ),
@@ -119,42 +109,32 @@ class Calculadora extends StatelessWidget {
   }
 
   bool todasOpcoesForamEscolhidas() {
-    return controller.operacaoMatematica.getPrimeiroNumero() != null &&
-        controller.operacaoMatematica.getSegundoNumero() != null &&
-        controller.operacaoMatematica.getOperacaoEscolhida() != null;
+    return contadorController.primeiroNumero != null &&
+        contadorController.segundoNumero != null &&
+        contadorController.operacaoEscolhida != null;
   }
 
   void onClickBotao() {
-      if (controller.operacaoMatematica.getOperacaoEscolhida() == '+') {
-        controller.operacaoMatematica.setResultado(controller.operacaoMatematica.getPrimeiroNumero() + controller.operacaoMatematica.getSegundoNumero());
-      } else if (controller.operacaoMatematica.getOperacaoEscolhida() == '-') {
-        controller.operacaoMatematica.setResultado(controller.operacaoMatematica.getPrimeiroNumero() - controller.operacaoMatematica.getSegundoNumero());
-      } else if (controller.operacaoMatematica.getOperacaoEscolhida() == '*') {
-        controller.operacaoMatematica.setResultado(controller.operacaoMatematica.getPrimeiroNumero() * controller.operacaoMatematica.getSegundoNumero());
-      } else if (controller.operacaoMatematica.getOperacaoEscolhida() == '/') {
-        controller.operacaoMatematica.setResultado(controller.operacaoMatematica.getPrimeiroNumero() / controller.operacaoMatematica.getSegundoNumero());
-      } else if (controller.operacaoMatematica.getOperacaoEscolhida() == '%') {
-        controller.operacaoMatematica.setResultado(controller.operacaoMatematica.getPrimeiroNumero() % controller.operacaoMatematica.getSegundoNumero());
-      }
+    contadorController.calcular();
   }
 
   void onClickBotaoZerar() {
-    controller.operacaoMatematica.setPrimeiroNumero(null);
-    controller.operacaoMatematica.setSegundoNumero(null)  ;
-    controller.operacaoMatematica.setOperacaoEscolhida(null);
-    controller.operacaoMatematica.setResultado(null);
+    contadorController.primeiroNumero = null;
+    contadorController.segundoNumero = null;
+    contadorController.operacaoEscolhida = null;
+    contadorController.resultado = null;
   }
 
-  void onPrimeiroNumeroEscolhido(double numero) {
-    controller.operacaoMatematica.setPrimeiroNumero(numero);
+  void onPrimeiroNumeroEscolhido(int numero) {
+    contadorController.primeiroNumero = numero;
   }
 
-  void onSegundoNumeroEscolhido(double numero) {
-    controller.operacaoMatematica.setSegundoNumero(numero);
+  void onSegundoNumeroEscolhido(int numero) {
+    contadorController.segundoNumero = numero;
   }
 
   void onOperacaoEscolhida(String operacao) {
-    controller.operacaoMatematica.setOperacaoEscolhida(operacao);
+    contadorController.operacaoEscolhida = operacao;
   }
 }
 
@@ -165,16 +145,20 @@ class BotaoZerar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
-      color: Colors.blue,
-      onPressed: onClickBotao,
-      child: Text(
-        'Zerar',
-        style: TextStyle(
-          color: Colors.white,
-          fontSize: 18,
-        ),
-      ),
+    return Observer(
+      builder: (context) {
+        return RaisedButton(
+          color: Colors.blue,
+          onPressed: onClickBotao,
+          child: Text(
+            'Zerar',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 18,
+            ),
+          ),
+        );
+      }
     );
   }
 }
@@ -186,6 +170,8 @@ class BotaoCalcular extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return Observer(
+      builder: (context) {
         return RaisedButton(
           color: Colors.blue,
           onPressed: onClickBotao,
@@ -197,6 +183,8 @@ class BotaoCalcular extends StatelessWidget {
             ),
           ),
         );
+      }
+    );
   }
 }
 
@@ -207,85 +195,89 @@ class Operacoes extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        GestureDetector(
-          onTap: () => onOperacaoEscolhida('+'),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(18),
-              child: Text(
-                '+',
-                style: TextStyle(
-                  fontSize: 38,
-                  fontWeight: FontWeight.bold,
+    return Observer(
+      builder: (context) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            GestureDetector(
+              onTap: () => onOperacaoEscolhida('+'),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(18),
+                  child: Text(
+                    '+',
+                    style: TextStyle(
+                      fontSize: 38,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () => onOperacaoEscolhida('-'),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(18),
-              child: Text(
-                '-',
-                style: TextStyle(
-                  fontSize: 38,
-                  fontWeight: FontWeight.bold,
+            GestureDetector(
+              onTap: () => onOperacaoEscolhida('-'),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(18),
+                  child: Text(
+                    '-',
+                    style: TextStyle(
+                      fontSize: 38,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () => onOperacaoEscolhida('*'),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(18),
-              child: Text(
-                '*',
-                style: TextStyle(
-                  fontSize: 38,
-                  fontWeight: FontWeight.bold,
+            GestureDetector(
+              onTap: () => onOperacaoEscolhida('*'),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(18),
+                  child: Text(
+                    '*',
+                    style: TextStyle(
+                      fontSize: 38,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () => onOperacaoEscolhida('/'),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(18),
-              child: Text(
-                '/',
-                style: TextStyle(
-                  fontSize: 38,
-                  fontWeight: FontWeight.bold,
+            GestureDetector(
+              onTap: () => onOperacaoEscolhida('/'),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(18),
+                  child: Text(
+                    '/',
+                    style: TextStyle(
+                      fontSize: 38,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-        GestureDetector(
-          onTap: () => onOperacaoEscolhida('%'),
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(18),
-              child: Text(
-                '%',
-                style: TextStyle(
-                  fontSize: 38,
-                  fontWeight: FontWeight.bold,
+            GestureDetector(
+              onTap: () => onOperacaoEscolhida('%'),
+              child: Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(18),
+                  child: Text(
+                    '%',
+                    style: TextStyle(
+                      fontSize: 38,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      }
     );
   }
 }
@@ -293,7 +285,7 @@ class Operacoes extends StatelessWidget {
 class Numeros extends StatelessWidget {
   Numeros(this.onNumeroEscolhido);
 
-  final Function(double) onNumeroEscolhido;
+  final Function(int) onNumeroEscolhido;
 
   @override
   Widget build(BuildContext context) {
@@ -305,7 +297,7 @@ class Numeros extends StatelessWidget {
   List<Widget> getNumeros() {
     List<Widget> numeros = [];
 
-    for (double i = 0; i < 10; i++) {
+    for (int i = 0; i < 10; i++) {
       numeros.add(
         GestureDetector(
           onTap: () => onNumeroEscolhido(i),

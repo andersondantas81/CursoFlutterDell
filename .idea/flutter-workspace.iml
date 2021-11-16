@@ -3,18 +3,27 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/exercicios/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/exercicios/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/exercicios/build" />
       <excludeFolder url="file://$MODULE_DIR$/exercicios/lib/Exercicios/oficina2_5/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/exercicios/lib/Exercicios/oficina2_5/build" />
+      <excludeFolder url="file://$MODULE_DIR$/exercicios/mobx_flutter/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/exercicios/mobx_flutter/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/exercicios/mobx_flutter/build" />
+      <excludeFolder url="file://$MODULE_DIR$/oficina2_5/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/oficina2_5/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/oficina2_5/build" />
+      <excludeFolder url="file://$MODULE_DIR$/oficina_aula4_3/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/oficina_aula4_3/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/oficina_aula4_3/build" />
+      <excludeFolder url="file://$MODULE_DIR$/teste/teste/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/teste/teste/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/teste/teste/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Dart SDK" level="project" />
+    <orderEntry type="library" name="Dart Packages" level="project" />
   </component>
 </module>
