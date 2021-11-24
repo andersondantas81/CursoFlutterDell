@@ -38,11 +38,11 @@ void main() {
     expect(find.text('Calcular'), findsOneWidget);
   });
 
-  testWidgets('Verificar se 2 + 2 = 4.00',  (WidgetTester tester) async {
+  testWidgets('Verificar se 3 + 2 = 5.00',  (WidgetTester tester) async {
 
     await tester.pumpWidget(Calculadora());
 
-    await tester.tap(find.text('2').first);
+    await tester.tap(find.text('3').first);
     await tester.pump();
     await tester.tap(find.text('+'));
     await tester.pump();
@@ -52,7 +52,8 @@ void main() {
     await tester.tap(find.text('Calcular'));
     await tester.pump();
 
-    expect(find.text('4.00'), findsOneWidget);
+    expect(find.text('5.00'), findsOneWidget);
+
   });
 
   testWidgets('Verificar erro na divisão por 0',  (WidgetTester tester) async {
